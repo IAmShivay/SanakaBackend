@@ -3,6 +3,9 @@ const ErrorHandler = require("../Utils/ErrorHandler");
 const User = require("../Models/userModels");
 const sendToken = require("../Utils/StatusCode");
 const sendEmail = require("../Utils/sendEmail");
+const Lead = require("../Models/lead")
+
+
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { firstName, lastName, email, password, role } = req.body;
   const emails = await User.findOne({ email: req.body.email });
@@ -208,3 +211,18 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
     sucess: true,
   });
 });
+
+
+exports.AddLeads = catchAsyncError(async (req, res, next) => {
+  const {name,phoneNumber,email} = req.body;
+  const emails = await Lead.findOne({ email: req.body.email });
+  if (emails) {
+    return next(new ErrorHandler("Form alredy Submitted", 400));
+  }
+  const user = await Lead.create({
+    name,phoneNumber,email
+  });
+  res.status(200).json({
+    sucess: true,
+    user
+  });});
