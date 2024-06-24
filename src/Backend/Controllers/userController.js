@@ -226,3 +226,19 @@ exports.AddLeads = catchAsyncError(async (req, res, next) => {
     sucess: true,
     user
   });});
+  exports.getAllLead = catchAsyncError(async (req, res, next) => {
+    try {
+      const leads = await Lead.find();
+  
+      if (!leads || leads.length === 0) {
+        return next(new ErrorHandler('No leads found', 404));
+      }
+  
+      res.status(200).json({
+        success: true,
+        leads,
+      });
+    } catch (error) {
+      return next(new ErrorHandler('Error fetching leads', 500));
+    }
+  });

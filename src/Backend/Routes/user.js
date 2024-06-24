@@ -13,19 +13,22 @@ const {
   deleteUserProfile,
   updateUserRole,
   getSingleUser,
-  AddLeads
+  AddLeads,
+  getAllLead
 } = require("../Controllers/userController");
 const { isAuthenticated, authorizedRoles } = require("../Middleware/auth");
 const router = express.Router();
 
 router.route("/register").post(registerUser);
 router.route("/form").post(AddLeads);
+router.route("/allleads").get(getAllLead);
 
 router.route("/login").post(loginUser);
 router.route("/password/forgot/").post(forgotPassword);
 router.route("/password/update").put(isAuthenticated, updateUserPassword);
 router.route("/password/reset/:token").put(resetPassword);
 router.route("/me").get(isAuthenticated, getUserDetails);
+
 router.route("/me/update").put(isAuthenticated, updateUserProfile);
 router
   .route("/admin/alluser")
