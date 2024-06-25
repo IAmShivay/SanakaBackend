@@ -2,7 +2,8 @@ const ErrorHandler = require("../Utils/ErrorHandler");
 const User = require("../Models/userModels");
 const jwt = require("jsonwebtoken");
 const catchAsyncError = require("../Middleware/catchAsyncError");
-
+const dotenv = require("dotenv");
+dotenv.config({ path: "src/Backend/Config/config.env" });
 exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   const {token} = req.cookies;
   console.log(token)

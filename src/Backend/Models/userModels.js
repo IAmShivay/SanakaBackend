@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+dotenv.config({ path: "src/Backend/Config/config.env" });
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
