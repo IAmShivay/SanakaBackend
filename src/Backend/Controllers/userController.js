@@ -215,8 +215,8 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
 
 exports.AddLeads = catchAsyncError(async (req, res, next) => {
   const {name,phoneNumber,email} = req.body;
-  const emails = await Lead.findOne({ email: req.body.email });
-  if (emails) {
+  const phoneNumbers = await Lead.findOne({ phoneNumber: req.body.phoneNumber });
+  if (phoneNumbers) {
     return next(new ErrorHandler("Form alredy Submitted", 400));
   }
   const user = await Lead.create({
