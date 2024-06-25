@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const catchAsyncError = require("../Middleware/catchAsyncError");
 const dotenv = require("dotenv");
 dotenv.config({ path: "src/Backend/Config/config.env" });
+console.log(process.env.JWT_SECRET)
 exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   const {token} = req.cookies;
   console.log(token)
