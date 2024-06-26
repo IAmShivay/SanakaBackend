@@ -11,7 +11,7 @@ exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   if (!token) {
     return next(new ErrorHandler("Please Login To access The Resource", 401));
   }
-  const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+  const decodedData = jwt.verify(token, process.env.JWT_SECRET || 'JISHIDWJWKHKWAHDJKAKJWH');
   req.user = await User.findById(decodedData.id);
   next();
 });
