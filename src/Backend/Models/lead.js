@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please Enter The Place"],
-    unique: true,
   },
   phoneNumber: {
     type: String,
