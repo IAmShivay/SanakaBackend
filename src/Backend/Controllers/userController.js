@@ -214,18 +214,34 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
 
 
 exports.AddLeads = catchAsyncError(async (req, res, next) => {
-  const {name,phoneNumber,email} = req.body;
-  const phoneNumbers = await Lead.findOne({ phoneNumber: req.body.phoneNumber });
-  if (phoneNumbers) {
-    return next(new ErrorHandler("Form alredy Submitted", 400));
-  }
-  const user = await Lead.create({
-    name,phoneNumber,email
+  const { name, phoneNumber, email, course, place } = req.body;
+
+  // Check if either phone number or email already exists
+  const existingLead = await Lead.findOne({
+    $or: [
+      { phoneNumber: phoneNumber },
+      { email: email }
+    ]
   });
+
+  if (existingLead) {
+    return next(new ErrorHandler("Form already submitted", 400));
+  }
+
+  // If no existing lead found, create a new lead record
+  const newLead = await Lead.create({
+    name,
+    phoneNumber,
+    email,
+    course,
+    place
+  });
+
   res.status(200).json({
-    sucess: true,
-    user
-  });});
+    success: true,
+    user: newLead
+  });
+});
   exports.getAllLead = catchAsyncError(async (req, res, next) => {
     try {
       const leads = await Lead.find();
