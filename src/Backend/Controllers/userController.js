@@ -3,8 +3,7 @@ const ErrorHandler = require("../Utils/ErrorHandler");
 const User = require("../Models/userModels");
 const sendToken = require("../Utils/StatusCode");
 const sendEmail = require("../Utils/sendEmail");
-const Lead = require("../Models/lead")
-
+const Lead = require("../Models/lead");
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { firstName, lastName, email, password, role } = req.body;
@@ -154,7 +153,7 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     sucess: true,
-    user
+    user,
   });
 });
 
@@ -169,7 +168,6 @@ exports.getSingleUser = catchAsyncError(async (req, res, next) => {
   });
 });
 
-
 exports.getAllUserDetails = catchAsyncError(async (req, res, next) => {
   const users = await User.find();
   if (!users) {
@@ -180,7 +178,6 @@ exports.getAllUserDetails = catchAsyncError(async (req, res, next) => {
     users,
   });
 });
-
 
 exports.updateUserRole = catchAsyncError(async (req, res, next) => {
   const newUserData = {
@@ -197,7 +194,7 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     sucess: true,
-    user
+    user,
   });
 });
 
@@ -212,16 +209,12 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
   });
 });
 
-
 exports.AddLeads = catchAsyncError(async (req, res, next) => {
-  const { name, phoneNumber, email, course, place } = req.body;
+  const { name, phoneNumber, email, course, college, place } = req.body;
 
   // Check if either phone number or email already exists
   const existingLead = await Lead.findOne({
-    $or: [
-      { phoneNumber: phoneNumber },
-      { email: email }
-    ]
+    $or: [{ phoneNumber: phoneNumber }, { email: email }],
   });
 
   if (existingLead) {
@@ -234,27 +227,28 @@ exports.AddLeads = catchAsyncError(async (req, res, next) => {
     phoneNumber,
     email,
     course,
-    place
+    college,
+    place,
   });
 
   res.status(200).json({
     success: true,
-    user: newLead
+    user: newLead,
   });
 });
-  exports.getAllLead = catchAsyncError(async (req, res, next) => {
-    try {
-      const leads = await Lead.find();
-  
-      if (!leads || leads.length === 0) {
-        return next(new ErrorHandler('No leads found', 404));
-      }
-  
-      res.status(200).json({
-        success: true,
-        leads,
-      });
-    } catch (error) {
-      return next(new ErrorHandler('Error fetching leads', 500));
+exports.getAllLead = catchAsyncError(async (req, res, next) => {
+  try {
+    const leads = await Lead.find();
+
+    if (!leads || leads.length === 0) {
+      return next(new ErrorHandler("No leads found", 404));
     }
-  });
+
+    res.status(200).json({
+      success: true,
+      leads,
+    });
+  } catch (error) {
+    return next(new ErrorHandler("Error fetching leads", 500));
+  }
+});

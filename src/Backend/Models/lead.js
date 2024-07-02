@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please enter interested course"],
     trim: true,
   },
+  college: {
+    type: String,
+    trim: true,
+  },
   place: {
     type: String,
     required: [true, "Please enter the place"],
