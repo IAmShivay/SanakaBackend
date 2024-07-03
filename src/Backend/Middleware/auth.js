@@ -5,6 +5,7 @@ const catchAsyncError = require("../Middleware/catchAsyncError");
 const dotenv = require("dotenv");
 dotenv.config({ path: "src/Backend/Config/config.env" });
 console.log(process.env.JWT_SECRET)
+
 exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   const {token} = req.cookies;
   console.log(token)
@@ -21,7 +22,7 @@ exports.authorizedRoles = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorHandler(
-          `Role: ${req.user.role} Is not Allowed To Acess This Resource`,
+          `Role: ${req.user.role} Is not Allowed To Access This Resource`,
           403
         )
       );
