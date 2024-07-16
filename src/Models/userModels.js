@@ -3,9 +3,11 @@ const validator = require("validator");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const crypto = require("crypto");
-dotenv.config({ path: "src/Backend/Config/config.env" });
-console.log(process.env.JWT_SECRET)
+
+dotenv.config({ path: "src/Config/config.env" });
+
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -51,9 +53,13 @@ userSchema.pre("save", async function (next) {
 });
 // JWT TOKEN
 userSchema.methods.getJWTToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET||'JISHIDWJWKHKWAHDJKAKJWH', {
-    expiresIn: process.env.JWT_EXPIRE || '5d',
-  });
+  return jwt.sign(
+    { id: this._id },
+    process.env.JWT_SECRET || "JISHIDWJWKHKWAHDJKAKJWH",
+    {
+      expiresIn: process.env.JWT_EXPIRE || "5d",
+    }
+  );
 };
 
 userSchema.methods.comparePassword = async function (Password) {
