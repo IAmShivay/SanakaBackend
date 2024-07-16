@@ -8,8 +8,8 @@ dotenv.config({ path: "src/Config/config.env" });
 connectDatabase();
 
 // Start server
-const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
+const server = app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT ||3000}`);
 });
 
 // Handle uncaught exceptions
